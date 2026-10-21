@@ -1,0 +1,30 @@
+{"doc_id": "c-01", "url": "https://example.com/edge-gateway-guide", "title": "边缘计算网关选型指南", "text": "边缘网关的选型首先要看现场环境。防护等级低于 IP65 的设备不能直接安装在户外机柜外，粉尘和凝露是现场故障的第一大来源。工业现场推荐至少 IP65，户外无遮挡场景需要 IP67。"}
+{"doc_id": "c-02", "url": "https://example.com/edge-gateway-guide", "title": "边缘计算网关选型指南", "text": "工作温度范围是第二个硬指标。华北地区的户外机柜夏季内部温度可达 70℃ 以上，冬季最低可到 -30℃，因此宽温设备（-40℃ 至 75℃）在北方项目里几乎是必选项，商业级 0℃ 至 50℃ 的设备只适合机房环境。"}
+{"doc_id": "c-03", "url": "https://example.com/edge-gateway-guide", "title": "边缘计算网关选型指南", "text": "供电方面，现场常见 12V 与 24V 直流，部分老厂区保留 220V 交流。支持 DC 9-36V 宽压输入的设备适应性最好，可以同时兼容这两种直流场景，减少备货型号。"}
+{"doc_id": "c-04", "url": "https://example.com/protocol-compare", "title": "工业协议对比：Modbus / Profinet / EtherCAT", "text": "Modbus RTU 基于串口，速率低但布线简单，在老设备改造中占比最高；Modbus TCP 把 RTU 报文封装进以太网，实现简单。Profinet 与 EtherCAT 属于实时以太网，需要专用芯片，成本更高，适合运动控制场景。"}
+{"doc_id": "c-05", "url": "https://example.com/protocol-compare", "title": "工业协议对比：Modbus / Profinet / EtherCAT", "text": "协议支持数量并不等于好用。很多网关号称支持十几种协议，但实际只做到了报文转发，没有做数据点映射。选型时要问清楚：协议之间是「透传」还是「带语义映射」——后者才能真正做到 PLC 和上位机的数据对齐。"}
+{"doc_id": "c-06", "url": "https://example.com/deployment-checklist", "title": "现场部署检查清单", "text": "上电前必须确认三件事：一、供电电压在设备标称范围内；二、接地电阻小于 4 欧姆；三、RS485 总线的 A/B 线没有接反。这三项占现场调试问题的一半以上。"}
+{"doc_id": "c-07", "url": "https://example.com/deployment-checklist", "title": "现场部署检查清单", "text": "固件升级一定要安排在停机窗口内。升级过程通常需要 1 到 3 分钟，期间设备不可用；如果设备承担的是产线通讯，务必先确认可以短暂停机。"}
+{"doc_id": "c-08", "url": "https://example.com/cost-analysis", "title": "工业物联网项目成本结构分析", "text": "一个典型的中型工厂物联网项目，硬件成本约占 45%，实施与调试占 30%，软件平台占 15%，备件与运维预留 10%。硬件里网关和传感器是大头。"}
+{"doc_id": "c-09", "url": "https://example.com/cost-analysis", "title": "工业物联网项目成本结构分析", "text": "很容易被忽略的成本是现场调试的人力。一个 200 点位的项目，如果协议映射需要人工逐点配置，调试周期往往是硬件安装的 2 到 3 倍。带自动点位发现的网关能显著压缩这部分成本。"}
+{"doc_id": "c-10", "url": "https://example.com/warranty-policy", "title": "工业设备质保与延保政策解读", "text": "行业惯例是整机质保 12 至 24 个月。质保范围一般只覆盖自然损坏的电子元器件，外壳、接插件、以及因雷击、进水、超压造成的损坏通常被排除在外。"}
+{"doc_id": "c-11", "url": "https://example.com/warranty-policy", "title": "工业设备质保与延保政策解读", "text": "延保服务的购买窗口通常在出厂后 6 个月内，最长可以延到 5 年。是否值得买取决于设备的替换成本和停机损失：产线关键节点的网关，停机一小时损失可能远超延保费用，这类设备建议买。"}
+{"doc_id": "c-12", "url": "https://example.com/security-baseline", "title": "工业控制网络安全基线", "text": "IEC 62443 是工控安全的核心标准，它把安全要求分为基础要求与增强要求两档。落地时最先做的一般是网络分区：把控制层和信息层用防火墙隔开，禁止控制层直接访问互联网。"}
+{"doc_id": "c-13", "url": "https://example.com/security-baseline", "title": "工业控制网络安全基线", "text": "默认口令是工控设备被入侵最常见的原因。设备交付时应强制修改默认密码，并关闭未使用的服务端口（Telnet、FTP 等明文协议建议全部关闭，改用 SSH 与 HTTPS）。"}
+{"doc_id": "c-14", "url": "https://example.com/edge-ai", "title": "边缘侧 AI 推理的可行性", "text": "在网关上跑轻量模型做异常检测是可行的，但要注意算力边界。常见的 ARM 四核 + NPU 方案，跑 Mobilenet 级别的模型可以做到 30fps 以上；再大的模型就需要外接算力盒子。"}
+{"doc_id": "c-15", "url": "https://example.com/edge-ai", "title": "边缘侧 AI 推理的可行性", "text": "边缘推理的真正难点不在模型本身，而在数据标注。工业现场的异常样本极少，正常样本极多，这种长尾分布下监督学习效果很差，通常需要用无监督的时序异常检测方法。"}
+{"doc_id": "c-16", "url": "https://example.com/cloud-vs-edge", "title": "云边协同架构讨论", "text": "云边协同的关键是划分职责：边缘侧负责毫秒级响应与数据预处理，云端负责长周期分析与模型训练。把实时控制逻辑放到云端是不可靠的，网络抖动会直接导致产线异常。"}
+{"doc_id": "c-17", "url": "https://example.com/cloud-vs-edge", "title": "云边协同架构讨论", "text": "断网续传是边缘侧必须实现的能力。常见做法是边缘侧本地缓存最多 7 天的数据，网络恢复后按时间顺序补传，并保证幂等，避免云端重复入库。"}
+{"doc_id": "c-18", "url": "https://example.com/hardware-selection", "title": "工控硬件选型常见误区", "text": "误区一：只看 CPU 主频不看架构。ARM 平台和 x86 平台的软件生态差异很大，如果现场需要用某些 Windows 专用组态软件，选 ARM 方案会直接走不通。"}
+{"doc_id": "c-19", "url": "https://example.com/hardware-selection", "title": "工控硬件选型常见误区", "text": "误区二：忽视散热设计。无风扇设计的设备在 60℃ 以上环境会降频，标称的宽温范围通常是在有散热片且负载不高的条件下的实验室数据。"}
+{"doc_id": "c-20", "url": "https://example.com/case-study", "title": "某汽车零部件厂改造案例", "text": "该厂有 12 条产线、约 800 个数据点位，涉及 Modbus RTU、Modbus TCP 与 Profinet 三种协议。改造前各产线数据孤岛，MES 侧只能拿到班次汇总数据。"}
+{"doc_id": "c-21", "url": "https://example.com/case-study", "title": "某汽车零部件厂改造案例", "text": "改造方案在每条产线部署 2 台双网口网关，一台负责串口设备接入，一台负责以太网设备接入，通过 VLAN 隔离广播域。改造后数据采集延时从分钟级降到 500 毫秒以内。"}
+{"doc_id": "c-22", "url": "https://example.com/case-study", "title": "某汽车零部件厂改造案例", "text": "项目复盘时最大的教训是前期点位梳理不充分。实际实施时发现现场有 30% 的点位在图纸上没有记录，导致协议映射表反复返工，项目延期近三周。"}
+{"doc_id": "c-23", "url": "https://example.com/maintenance", "title": "设备年度维护要点", "text": "建议每 12 个月做一次全面校准与固件检查，每季度做一次远程健康巡检。巡检项包括：设备温度、内存占用、磁盘剩余空间、通讯丢包率、以及是否有异常重启记录。"}
+{"doc_id": "c-24", "url": "https://example.com/maintenance", "title": "设备年度维护要点", "text": "日志容量规划经常被忽略。设备按每秒一条日志计算，一年会产生约 3100 万条记录，如果不做轮转和压缩，磁盘会在一到两年内写满。"}
+{"doc_id": "c-25", "url": "https://example.com/faq", "title": "常见问题 FAQ", "text": "问：设备接上电后指示灯不亮怎么办？答：先确认供电电压和极性，再检查电源适配器是否匹配。若电源正常但指示灯仍不亮，可能是内部保险丝熔断，需返厂。"}
+{"doc_id": "c-26", "url": "https://example.com/faq", "title": "常见问题 FAQ", "text": "问：为什么采集到的数据偶尔会跳变？答：多数情况是 RS485 总线的终端电阻没有接，或者总线太长导致信号反射。长距离场景建议加装中继器。"}
+{"doc_id": "c-27", "url": "https://example.com/faq", "title": "常见问题 FAQ", "text": "问：网关和 PLC 之间通讯时断时续？答：先看是否与变频器等强干扰设备共用电源；其次是排查接地，浮地状态下通讯误码率会明显上升。"}
+{"doc_id": "c-28", "url": "https://example.com/market-report", "title": "2026 工业网关市场简报", "text": "国内工业网关市场集中度不高，前五名厂商合计份额不足 40%。中低端市场同质化严重，价格战激烈；高端市场主要被海外品牌占据，国产替代在近两年有明显进展。"}
+{"doc_id": "c-29", "url": "https://example.com/market-report", "title": "2026 工业网关市场简报", "text": "从出货量结构看，Modbus 类产品仍占半壁江山，但支持 OPC UA 的产品增速最快，年增长率超过 60%，这与国内工厂推动数据上云的趋势吻合。"}
+{"doc_id": "c-30", "url": "https://example.com/unrelated", "title": "办公室咖啡机使用须知", "text": "咖啡机每日下班前请清空水箱并清洗滤网。若连续两周无人使用，请将水箱取下晾干，避免滋生霉斑。咖啡豆请存放于阴凉干燥处。"}

@@ -1,0 +1,13 @@
+{"query": "户外机柜里的网关应该选什么防护等级", "gold_chunk_ids": ["c-01"], "topic": "环境适应性"}
+{"query": "北方项目对工作温度范围有什么要求", "gold_chunk_ids": ["c-02"], "topic": "环境适应性"}
+{"query": "现场同时有 12V 和 24V 直流，网关怎么选型", "gold_chunk_ids": ["c-03"], "topic": "供电"}
+{"query": "Modbus 和 Profinet 的主要区别是什么", "gold_chunk_ids": ["c-04"], "topic": "协议"}
+{"query": "怎么判断一个网关的协议支持是不是真的好用", "gold_chunk_ids": ["c-05"], "topic": "协议"}
+{"query": "设备上电之前需要确认哪些事项", "gold_chunk_ids": ["c-06"], "topic": "部署"}
+{"query": "延保服务值不值得买", "gold_chunk_ids": ["c-11"], "topic": "运维成本"}
+{"query": "工控设备的默认口令应该怎么处理", "gold_chunk_ids": ["c-13"], "topic": "安全"}
+{"query": "断网期间采集到的数据会不会丢", "gold_chunk_ids": ["c-17"], "topic": "云边协同"}
+{"query": "汽车零部件厂改造之后数据采集延时降到了多少", "gold_chunk_ids": ["c-21"], "topic": "案例"}
+{"query": "那个改造项目为什么会延期", "gold_chunk_ids": ["c-22"], "topic": "案例"}
+{"query": "日志多久会把设备磁盘写满", "gold_chunk_ids": ["c-24"], "topic": "运维"}
+{"query": "采集到的数据偶尔跳变是什么原因", "gold_chunk_ids": ["c-26"], "topic": "故障排查"}

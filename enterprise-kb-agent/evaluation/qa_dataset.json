@@ -1,0 +1,25 @@
+{
+  "description": "企业知识库 QA 评测集：每条含期望来源文档与答案必含关键词。关键词判定为确定性检查，不依赖主观判断。",
+  "items": [
+    {"id": 1, "question": "员工入职满十年年假有几天？", "expected_source": "员工考勤管理制度.md", "must_contain": ["10 个工作日", "10个工作日"]},
+    {"id": 2, "question": "迟到半小时以内会扣多少钱？", "expected_source": "员工考勤管理制度.md", "must_contain": ["30元", "30 元"]},
+    {"id": 3, "question": "旷工一天工资怎么扣？", "expected_source": "员工考勤管理制度.md", "must_contain": ["两倍"]},
+    {"id": 4, "question": "病假期间工资按什么标准发放？", "expected_source": "员工考勤管理制度.md", "must_contain": ["80%"]},
+    {"id": 5, "question": "漏打卡几次以内不追究？", "expected_source": "员工考勤管理制度.md", "must_contain": ["三次"]},
+    {"id": 6, "question": "请事假需要谁审批？", "expected_source": "员工考勤管理制度.md", "must_contain": ["直属主管"]},
+    {"id": 7, "question": "年假可以结转到什么时候？", "expected_source": "员工考勤管理制度.md", "must_contain": ["次年第一季度", "次年"]},
+    {"id": 8, "question": "婚假有几天？", "expected_source": "员工考勤管理制度.md", "must_contain": ["3个工作日", "3 个工作日"]},
+    {"id": 9, "question": "普通员工出差一类城市住宿费每晚限额多少？", "expected_source": "差旅费报销管理制度.md", "must_contain": ["400元", "400 元"]},
+    {"id": 10, "question": "普通员工坐高铁是什么标准？", "expected_source": "差旅费报销管理制度.md", "must_contain": ["二等座"]},
+    {"id": 11, "question": "出差补助每天多少钱？", "expected_source": "差旅费报销管理制度.md", "must_contain": ["100元", "100 元"]},
+    {"id": 12, "question": "出差结束后多久内要提交报销？", "expected_source": "差旅费报销管理制度.md", "must_contain": ["15个工作日", "15 个工作日"]},
+    {"id": 13, "question": "报销逾期了会怎么样？", "expected_source": "差旅费报销管理制度.md", "must_contain": ["1%"]},
+    {"id": 14, "question": "住宿超标超出部分谁承担？", "expected_source": "差旅费报销管理制度.md", "must_contain": ["个人承担"]},
+    {"id": 15, "question": "单笔报销超过五千元需要谁审批？", "expected_source": "差旅费报销管理制度.md", "must_contain": ["财务总监"]},
+    {"id": 16, "question": "公司密码最短要设多少位？", "expected_source": "信息安全管理规范.md", "must_contain": ["10位", "10 位"]},
+    {"id": 17, "question": "密码多久要换一次？", "expected_source": "信息安全管理规范.md", "must_contain": ["90天", "90 天"]},
+    {"id": 18, "question": "公司数据分为几个级别？", "expected_source": "信息安全管理规范.md", "must_contain": ["四级", "4级", "个级别"]},
+    {"id": 19, "question": "发现数据泄露多久内要报告？", "expected_source": "信息安全管理规范.md", "must_contain": ["24小时", "24 小时"]},
+    {"id": 20, "question": "出差用酒店网络访问公司系统要注意什么？", "expected_source": "信息安全管理规范.md", "must_contain": ["VPN"]}
+  ]
+}
