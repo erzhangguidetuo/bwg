@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}报修单列表 · 设备报修管理系统{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h5 mb-1">报修单</h1>
+    <p class="text-muted small mb-0">
+      {% if can_handle %}你是维修人员，可以看到全部报修单{% else %}这里只显示你提交的报修单{% endif %}
+    </p>
+  </div>
+  <a href="{% url 'order-create' %}" class="btn btn-primary">+ 提交报修</a>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body py-3">
+    <form method="get" class="row g-2 align-items-center">
+      <div class="col-md-5">
+        <input type="search" name="q" value="{{ keyword }}" class="form-control"
+               placeholder="搜索单号、标题或描述">
+      </div>
+      <div class="col-md-5">
+        <div class="btn-group btn-group-sm" role="group">
+          <a href="?{% if keyword %}q={{ keyword }}{% endif %}"
+             class="btn btn-outline-secondary {% if not current_status %}active{% endif %}">全部</a>
+          {% for value, label in status_choices %}
+            <a href="?status={{ value }}{% if keyword %}&q={{ keyword }}{% endif %}"
+               class="btn btn-outline-secondary {% if current_status == value|stringformat:'s' %}active{% endif %}">{{ label }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-md-2 text-end">
+        <button type="submit" class="btn btn-secondary btn-sm w-100">搜索</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% if orders %}
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>单号</th>
+            <th>故障标题</th>
+            <th>分类</th>
+            <th>地点</th>
+            <th>紧急程度</th>
+            <th>状态</th>
+            {% if can_handle %}<th>报修人</th>{% endif %}
+            <th>提交时间</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            <tr>
+              <td class="text-muted small">{{ order.order_no }}</td>
+              <td>
+                <a href="{{ order.get_absolute_url }}" class="text-decoration-none">{{ order.title }}</a>
+              </td>
+              <td>{{ order.category.name }}</td>
+              <td class="text-muted">{{ order.location }}</td>
+              <td>
+                {% if order.priority == 'high' %}
+                  <span class="badge bg-danger">紧急</span>
+                {% elif order.priority == 'low' %}
+                  <span class="badge bg-light text-dark border">低</span>
+                {% else %}
+                  <span class="badge bg-secondary">普通</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if order.status == 0 %}
+                  <span class="badge bg-warning text-dark">待受理</span>
+                {% elif order.status == 1 %}
+                  <span class="badge bg-info text-dark">处理中</span>
+                {% elif order.status == 2 %}
+                  <span class="badge bg-success">已完成</span>
+                {% else %}
+                  <span class="badge bg-secondary">已关闭</span>
+                {% endif %}
+              </td>
+              {% if can_handle %}<td class="small">{{ order.created_by.username }}</td>{% endif %}
+              <td class="text-muted small">{{ order.created_at|date:"Y-m-d H:i" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% if is_paginated %}
+    <nav class="mt-3">
+      <ul class="pagination pagination-sm justify-content-center mb-0">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if keyword %}&q={{ keyword }}{% endif %}{% if current_status %}&status={{ current_status }}{% endif %}">上一页</a>
+          </li>
+        {% endif %}
+        <li class="page-item disabled">
+          <span class="page-link">第 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }} 页</span>
+        </li>
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if keyword %}&q={{ keyword }}{% endif %}{% if current_status %}&status={{ current_status }}{% endif %}">下一页</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+
+{% else %}
+  <div class="card">
+    <div class="card-body text-center py-5 text-muted">
+      <p class="mb-2">没有找到符合条件的报修单</p>
+      <a href="{% url 'order-create' %}" class="btn btn-sm btn-outline-primary">提交第一张报修单</a>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

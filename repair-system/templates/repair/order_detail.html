@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ order.title }} · 设备报修管理系统{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb small">
+    <li class="breadcrumb-item"><a href="{% url 'order-list' %}">报修单</a></li>
+    <li class="breadcrumb-item active">{{ order.order_no }}</li>
+  </ol>
+</nav>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <div>
+            <h1 class="h5 mb-1">{{ order.title }}</h1>
+            <span class="text-muted small">单号 {{ order.order_no }}</span>
+          </div>
+          <div>
+            {% if order.status == 0 %}
+              <span class="badge bg-warning text-dark fs-6">待受理</span>
+            {% elif order.status == 1 %}
+              <span class="badge bg-info text-dark fs-6">处理中</span>
+            {% elif order.status == 2 %}
+              <span class="badge bg-success fs-6">已完成</span>
+            {% else %}
+              <span class="badge bg-secondary fs-6">已关闭</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <dl class="row mb-0 small">
+          <dt class="col-sm-3 text-muted fw-normal">设备分类</dt>
+          <dd class="col-sm-9">{{ order.category.name }}</dd>
+
+          <dt class="col-sm-3 text-muted fw-normal">故障地点</dt>
+          <dd class="col-sm-9">{{ order.location }}</dd>
+
+          <dt class="col-sm-3 text-muted fw-normal">紧急程度</dt>
+          <dd class="col-sm-9">{{ order.priority_label }}</dd>
+
+          <dt class="col-sm-3 text-muted fw-normal">报修人</dt>
+          <dd class="col-sm-9">{{ order.created_by.username }}</dd>
+
+          <dt class="col-sm-3 text-muted fw-normal">处理人</dt>
+          <dd class="col-sm-9">{{ order.handler.username|default:"尚未指派" }}</dd>
+
+          <dt class="col-sm-3 text-muted fw-normal">提交时间</dt>
+          <dd class="col-sm-9">{{ order.created_at|date:"Y-m-d H:i:s" }}</dd>
+        </dl>
+
+        <hr>
+
+        <h2 class="h6 text-muted">故障描述</h2>
+        <p class="mb-0" style="white-space: pre-wrap;">{{ order.description }}</p>
+
+        {% if order.image %}
+          <hr>
+          <h2 class="h6 text-muted">故障照片</h2>
+          <a href="{{ order.image.url }}" target="_blank" rel="noopener">
+            <img src="{{ order.image.url }}" alt="故障照片" class="img-thumbnail" style="max-height: 220px;">
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header bg-white">
+        <span class="fw-medium">处理记录</span>
+        <span class="text-muted small">（共 {{ order.logs.count }} 条）</span>
+      </div>
+      <div class="card-body">
+        {% if order.logs.all %}
+          <ul class="timeline list-unstyled mb-0">
+            {% for log in order.logs.all %}
+              <li class="mb-3">
+                <div class="small text-muted">{{ log.created_at|date:"Y-m-d H:i" }} · {{ log.operator.username }}</div>
+                <div>
+                  {{ log.get_from_status_display }}
+                  <span class="text-muted">→</span>
+                  <span class="fw-medium">{{ log.get_to_status_display }}</span>
+                </div>
+                {% if log.note %}<div class="small text-muted mt-1">备注：{{ log.note }}</div>{% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted mb-0 small">还没有处理记录</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header bg-white fw-medium">状态操作</div>
+      <div class="card-body">
+        {% if next_statuses %}
+          <form method="post" action="{% url 'order-change-status' order.pk %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label small" for="note">处理说明（选填）</label>
+              <textarea name="note" id="note" rows="3" class="form-control form-control-sm"
+                        maxlength="200" placeholder="例如：已更换滤网，测试正常"></textarea>
+            </div>
+            <div class="d-grid gap-2">
+              {% for value, label in next_statuses %}
+                <button type="submit" name="status" value="{{ value }}"
+                        class="btn btn-sm {% if value == 2 %}btn-success{% elif value == 3 %}btn-outline-secondary{% else %}btn-primary{% endif %}">
+                  标记为「{{ label }}」
+                </button>
+              {% endfor %}
+            </div>
+          </form>
+        {% elif can_handle %}
+          <p class="text-muted small mb-0">该报修单已结束（{{ order.status_label }}），没有可执行的操作。</p>
+        {% else %}
+          <p class="text-muted small mb-0">只有维修人员可以变更报修单状态。</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

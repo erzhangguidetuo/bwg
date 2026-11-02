@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}数据看板 · 设备报修管理系统{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h5 mb-1">数据看板</h1>
+    <p class="text-muted small mb-0">
+      {% if can_handle %}全站统计{% else %}你提交的报修单统计{% endif %}
+    </p>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="card stat-card h-100">
+      <div class="card-body">
+        <div class="text-muted small">总单量</div>
+        <div class="stat-value">{{ totals.total }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card stat-card h-100">
+      <div class="card-body">
+        <div class="text-muted small">待受理</div>
+        <div class="stat-value text-warning">{{ totals.pending }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card stat-card h-100">
+      <div class="card-body">
+        <div class="text-muted small">处理中</div>
+        <div class="stat-value text-info">{{ totals.processing }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card stat-card h-100">
+      <div class="card-body">
+        <div class="text-muted small">已完成</div>
+        <div class="stat-value text-success">{{ totals.done }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-header bg-white fw-medium">按设备分类分布</div>
+      <div class="card-body">
+        {% if by_category %}
+          <table class="table table-sm align-middle mb-0">
+            <tbody>
+              {% for category in by_category %}
+                <tr>
+                  <td>{{ category.name }}</td>
+                  <td class="text-end text-muted">{{ category.order_count }} 单</td>
+                  <td style="width: 45%;">
+                    <div class="progress" style="height: 6px;">
+                      <div class="progress-bar" role="progressbar"
+                           style="width: {% widthratio category.order_count totals.total 100 %}%"></div>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="text-muted small mb-0">暂无数据</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-header bg-white fw-medium">最近提交</div>
+      <div class="card-body">
+        {% if recent_orders %}
+          <ul class="list-unstyled mb-0">
+            {% for order in recent_orders %}
+              <li class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                <div>
+                  <a href="{{ order.get_absolute_url }}" class="text-decoration-none">{{ order.title }}</a>
+                  <div class="text-muted small">{{ order.order_no }} · {{ order.created_at|date:"m-d H:i" }}</div>
+                </div>
+                <span class="badge
+                  {% if order.status == 0 %}bg-warning text-dark
+                  {% elif order.status == 1 %}bg-info text-dark
+                  {% elif order.status == 2 %}bg-success
+                  {% else %}bg-secondary{% endif %}">{{ order.status_label }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted small mb-0">暂无数据</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

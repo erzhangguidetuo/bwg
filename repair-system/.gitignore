@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Django 本地产物
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+.DS_Store
