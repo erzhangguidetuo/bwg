@@ -7,6 +7,7 @@
     student  普通报修人，只能看自己的单
     teacher  另一个报修人，用来看权限隔离效果
     tech     维修工，拥有「处理报修单」权限，能看到并处理全部单
+    admin    超级管理员，能进 Django Admin 后台
 """
 
 import random
@@ -18,6 +19,9 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from repair.models import Category, RepairLog, RepairOrder
+
+# 所有演示账号统一用这个密码，README 里引用的也是它
+DEMO_PASSWORD = 'demo12345'
 
 CATEGORIES = ['空调', '电脑', '门禁', '照明', '水管']
 
@@ -47,6 +51,20 @@ class Command(BaseCommand):
 
         # 授予维修工「处理报修单」权限
         tech.user_permissions.add(Permission.objects.get(codename='handle_repair_order'))
+
+        # 超级管理员：只有它能进 Django Admin 后台
+        admin, admin_created = User.objects.get_or_create(
+            username='admin',
+            defaults={
+                'first_name': '系统管理员',
+                'is_staff': True,
+                'is_superuser': True,
+                'email': 'admin@example.com',
+            },
+        )
+        if admin_created:
+            admin.set_password(DEMO_PASSWORD)
+            admin.save()
 
         created = 0
         for index, (title, category_name, location) in enumerate(TITLES):
@@ -97,10 +115,11 @@ class Command(BaseCommand):
                 )
 
         self.stdout.write(self.style.SUCCESS(f'完成：{len(categories)} 个分类，{created} 条报修单'))
-        self.stdout.write('演示账号（密码都是 demo12345）：')
+        self.stdout.write(f'演示账号（密码都是 {DEMO_PASSWORD}）：')
         self.stdout.write('  student  普通报修人')
         self.stdout.write('  teacher  另一个报修人')
         self.stdout.write('  tech     维修工（可处理全部报修单）')
+        self.stdout.write('  admin    超级管理员（可进 /admin/ 后台）')
 
     @staticmethod
     def _ensure_user(username: str, first_name: str) -> User:
@@ -108,6 +127,6 @@ class Command(BaseCommand):
             username=username, defaults={'first_name': first_name}
         )
         if created:
-            user.set_password('demo12345')
+            user.set_password(DEMO_PASSWORD)
             user.save()
         return user
