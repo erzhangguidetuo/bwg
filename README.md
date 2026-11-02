@@ -1,11 +1,12 @@
 # bwg
 
-本仓库收录两个 AI Agent 方向的工程实践项目：
+本仓库收录 AI Agent 与 Python 后端方向的工程实践项目：
 
 | 目录 | 方向 | 性质 |
 |---|---|---|
 | [`gpt-researcher/`](./gpt-researcher) | 多智能体深度研究（Deep Research）Agent | 基于开源二次开发（[assafelovic/gpt-researcher](https://github.com/assafelovic/gpt-researcher)，Apache-2.0） |
 | [`enterprise-kb-agent/`](./enterprise-kb-agent) | 企业知识库智能问答 Agent（Agentic RAG） | **从 0 到 1 自研** |
+| [`ecommerce-backend/`](./ecommerce-backend) | 电商后台管理系统（FastAPI / MySQL / Redis / Celery） | 基于开源架构二次开发（[fastapi-practices/fastapi-best-architecture](https://github.com/fastapi-practices/fastapi-best-architecture)，MIT），**业务模块自研** |
 
 ---
 

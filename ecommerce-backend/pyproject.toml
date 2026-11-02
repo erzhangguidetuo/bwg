@@ -1,0 +1,292 @@
+[project]
+name = "fastapi-best-architecture"
+description = "FastAPI 企业级后端架构解决方案"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+  { name = "Wu Clan", email = "jianhengwu0407@gmail.com" },
+]
+dependencies = [
+  "alembic>=1.20.1",
+  "asgiref>=3.13.0",
+  "asyncmy>=0.2.17",
+  "asyncpg>=0.32.0",
+  "bcrypt>=5.0.0",
+  "cappa>=0.33.0",
+  "celery>=5.6.3",
+  # When celery version < 6.0.0
+  # https://github.com/celery/celery/issues/7874
+  "celery-aio-pool>=0.1.0rc8",
+  "cryptography>=50.0.2",
+  "dulwich>=1.2.20",
+  "fast-captcha>=0.3.2",
+  "fastapi-pagination[sqlalchemy]>=0.16.1",
+  "fastapi-redis-sdk[otel]>=0.9.1",
+  "fastapi[standard-no-fastapi-cloud-cli]>=0.162.0",
+  "flower>=2.2.0",
+  "gevent>=26.9.0",
+  "granian>=2.8.7",
+  "itsdangerous>=2.2.0",
+  "jinja2>=3.1.6",
+  "loguru>=0.7.3",
+  "msgspec>=0.22.0",
+  "opentelemetry-exporter-otlp-proto-grpc>=1.45.1",
+  "opentelemetry-instrumentation-asyncio>=0.66b1",
+  "opentelemetry-instrumentation-celery>=0.66b1",
+  "opentelemetry-instrumentation-httpx>=0.66b1",
+  "opentelemetry-instrumentation-logging>=0.66b1",
+  "opentelemetry-instrumentation-redis>=0.66b1",
+  "opentelemetry-instrumentation-sqlalchemy>=0.66b1",
+  "opentelemetry-sdk>=1.45.1",
+  "prometheus-client>=0.26.0",
+  "psutil>=7.2.2",
+  # https://github.com/fastapi-practices/fastapi_best_architecture/issues/887
+  "psycopg[binary]==3.2.10",
+  "pwdlib>=0.3.1",
+  "py-ip2region>=3.0.6",
+  "pydantic>=2.14.1",
+  "pydantic-settings>=2.16.2",
+  "pyjwt>=2.15.1",
+  "pymysql>=1.2.3",
+  "python-socketio>=5.17.0",
+  "redis[hiredis]>=8.1.0",
+  "rtoml>=0.14.0",
+  "sqlalchemy-crud-plus>=1.13.3",
+  "sqlalchemy[asyncio]>=2.1.6",
+  "sqlparse>=0.6.0",
+  "starlette-context>=0.5.1",
+  "user-agents>=2.2.0",
+]
+dynamic = ["version"]
+
+[project.scripts]
+fba = "backend.cli:main"
+
+[dependency-groups]
+dev = [
+  "aiosqlite>=0.22.1",
+  "pytest>=9.2.0",
+  "pytest-sugar>=1.1.1",
+]
+lint = [
+  "prek>=0.5.7",
+]
+server = [
+  "aio-pika>=10.1.1",
+  "wait-for-it>=2.3.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.alembic]
+script_location = "%(here)s/backend/alembic"
+file_template = "%%(year)d-%%(month).2d-%%(day).2d-%%(hour).2d_%%(minute).2d_%%(second).2d-%%(rev)s_%%(slug)s"
+prepend_sys_path = ["."]
+version_locations = ["%(here)s/backend/alembic/versions"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["backend"]
+
+[tool.hatch.version]
+path = "backend/__init__.py"
+
+[tool.ruff]
+line-length = 120
+preview = true
+fix = true
+unsafe-fixes = true
+show-fixes = true
+required-version = ">=0.15.0"
+
+[tool.ruff.lint]
+select = [
+  "FAST",
+  "missing-type-function-argument",
+  "missing-return-type-undocumented-public-function",
+  "missing-return-type-private-function",
+  "missing-return-type-special-method",
+  "missing-return-type-static-method",
+  "missing-return-type-class-method",
+  "async-busy-wait",
+  "long-sleep-not-forever",
+  "blocking-http-call-in-async-function",
+  "blocking-http-call-httpx-in-async-function",
+  "blocking-open-call-in-async-function",
+  "blocking-path-method-in-async-function",
+  "blocking-input-in-async-function",
+  "blocking-sleep-in-async-function",
+  "suspicious-url-open-usage",
+  "boolean-type-hint-positional-argument",
+  "boolean-default-value-positional-argument",
+  "unary-prefix-increment-decrement",
+  "strip-with-multi-characters",
+  "mutable-argument-default",
+  "unused-loop-control-variable",
+  "function-call-in-default-argument",
+  "get-attr-with-constant",
+  "set-attr-with-constant",
+  "redundant-tuple-in-exception-handler",
+  "duplicate-handler-exception",
+  "cached-instance-method",
+  "loop-variable-overrides-iterator",
+  "f-string-docstring",
+  "abstract-base-class-without-abstract-method",
+  "duplicate-try-block-exception",
+  "star-arg-unpacking-after-keyword-arg",
+  "empty-method-without-abstract-decorator",
+  "mutable-contextvar-default",
+  "COM",
+  "unnecessary-generator-dict",
+  "unnecessary-list-comprehension-set",
+  "unnecessary-list-comprehension-dict",
+  "unnecessary-collection-call",
+  "unnecessary-literal-within-list-call",
+  "unnecessary-list-call",
+  "unnecessary-double-cast-or-process",
+  "unnecessary-comprehension",
+  "unnecessary-map",
+  "unnecessary-literal-within-dict-call",
+  "unnecessary-comprehension-in-call",
+  "unnecessary-dict-comprehension-for-iterable",
+  "DTZ",
+  "EXE",
+  "single-line-implicit-string-concatenation",
+  "multi-line-implicit-string-concatenation",
+  "explicit-string-concatenation",
+  "PIE",
+  "pass-statement-stub-body",
+  "non-empty-stub-body",
+  "typed-argument-default-in-stub",
+  "pass-in-class-body",
+  "ellipsis-in-non-empty-class-body",
+  "duplicate-union-member",
+  "complex-assignment-in-stub",
+  "custom-type-var-for-self",
+  "quoted-annotation-in-stub",
+  "docstring-in-stub",
+  "collections-named-tuple",
+  "type-alias-without-annotation",
+  "unnecessary-literal-union",
+  "legacy-type-comment",
+  "non-self-return-type",
+  "bad-exit-annotation",
+  "redundant-numeric-union",
+  "snake-case-type-alias",
+  "unnecessary-type-union",
+  "redundant-none-literal",
+  "duplicate-literal-member",
+  "pep484-style-positional-only-parameter",
+  "bad-quotes-multiline-string",
+  "bad-quotes-docstring",
+  "unnecessary-paren-on-raise-exception",
+  "unnecessary-return-none",
+  "superfluous-else-return",
+  "superfluous-else-raise",
+  "superfluous-else-continue",
+  "superfluous-else-break",
+  "duplicate-isinstance-call",
+  "collapsible-if",
+  "needless-bool",
+  "return-in-try-except-finally",
+  "if-else-block-instead-of-if-exp",
+  "compare-with-tuple",
+  "reimplemented-builtin",
+  "if-with-same-arms",
+  "open-file-with-context-handler",
+  "negate-equal-op",
+  "negate-not-equal-op",
+  "if-expr-with-true-false",
+  "if-expr-with-false-true",
+  "if-expr-with-twisted-arms",
+  "yoda-conditions",
+  "if-else-block-instead-of-dict-get",
+  "dict-get-with-none-default",
+  "relative-imports",
+  "TC",
+  "FLY",
+  "I",
+  "complex-structure",
+  "N",
+  "PERF",
+  "E",
+  "W",
+  "docstring-starts-with-this",
+  "undocumented-param",
+  "empty-docstring",
+  "F",
+  "PGH",
+  "compare-to-empty-string",
+  "UP",
+  "FURB",
+  "RUF",
+  "TRY",
+]
+ignore = [
+  "missing-trailing-comma",
+  "blanket-type-ignore",
+  "ambiguous-unicode-character-string",
+  "ambiguous-unicode-character-docstring",
+  "ambiguous-unicode-character-comment",
+  "asyncio-dangling-task",
+  "mutable-class-default",
+  "non-empty-init-module",
+  "error-instead-of-exception",
+  "raise-vanilla-args",
+  "raise-within-try",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/model/*.py" = ["typing-only-standard-library-import"]
+"backend/common/socketio/server.py" = ["missing-type-function-argument"]
+"backend/common/exception/exception_handler.py" = [
+  "missing-return-type-private-function",
+  "unused-async",
+]
+
+[tool.ruff.lint.flake8-pytest-style]
+parametrize-names-type = "list"
+parametrize-values-row-type = "list"
+parametrize-values-type = "list"
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+
+[tool.ruff.lint.flake8-type-checking]
+runtime-evaluated-base-classes = [
+  "pydantic.BaseModel",
+  "sqlalchemy.orm.DeclarativeBase",
+]
+
+[tool.ruff.lint.flake8-unused-arguments]
+ignore-variadic-names = true
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+lines-between-types = 1
+order-by-type = true
+
+[tool.ruff.lint.pylint]
+allow-dunder-method-names = ["__tablename__", "__table_args__"]
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "single"
+
+[tool.tombi]
+toml-version = "v1.1.0"
+
+[[tool.tombi.schemas]]
+path = ".schemas/plugin.schema.json"
+include = ["backend/plugin/**/plugin.toml"]
+
+[tool.uv]
+index-strategy = "unsafe-best-match"
+python-downloads = "manual"
+default-groups = ["dev", "lint"]
+
+[[tool.uv.index]]
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
