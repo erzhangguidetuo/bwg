@@ -7,6 +7,34 @@
 | [`gpt-researcher/`](./gpt-researcher) | 多智能体深度研究（Deep Research）Agent | 基于开源二次开发（[assafelovic/gpt-researcher](https://github.com/assafelovic/gpt-researcher)，Apache-2.0） |
 | [`enterprise-kb-agent/`](./enterprise-kb-agent) | 企业知识库智能问答 Agent（Agentic RAG） | **从 0 到 1 自研** |
 | [`ecommerce-backend/`](./ecommerce-backend) | 电商后台管理系统（FastAPI / MySQL / Redis / Celery） | 基于开源架构二次开发（[fastapi-practices/fastapi-best-architecture](https://github.com/fastapi-practices/fastapi-best-architecture)，MIT），**业务模块自研** |
+| [`repair-system/`](./repair-system) | 设备报修管理系统（Django 5.2 全栈） | **从 0 到 1 自研**，零第三方依赖 |
+
+---
+
+## 4. repair-system — 设备报修管理系统（自研）
+
+基于 **Django 5.2** 的报修工单系统：报修人提交故障单（支持照片），维修人员按状态机
+`待受理 → 处理中 → 已完成 → 已关闭` 流转，全程留痕，附数据看板。
+
+**核心设计**
+
+- **状态机收敛在模型层**（`ALLOWED_TRANSITIONS`），视图只调用不写规则，禁止跳步与倒退；
+- **权限过滤单点化**：`visible_orders(user)` 是唯一决定可见范围的函数，列表 / 详情 / 看板复用，防越权（改 URL id 也看不到别人的单，有用例覆盖）；
+- **报修人取自登录态**，前端伪造 `created_by` 字段无效（有用例覆盖）；
+- **查询优化**：列表页 `select_related` 消 N+1，`status + created_at` 组合索引对应最常见筛选；
+- **自定义 Permission** `handle_repair_order` 走 Django 原生权限体系（RBAC）；
+- 14 个单元测试覆盖：未登录跳转、越权访问、状态机合法性、报修人防伪造、搜索与统计。
+
+**零第三方依赖**：只装一个 Django 就能跑，SQLite 存储，`seed_demo` 命令一键生成演示数据。
+
+```bash
+cd repair-system
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py seed_demo     # 3 个演示账号 + 8 条报修单
+python manage.py runserver
+python manage.py test          # 14 个用例
+```
 
 ---
 
